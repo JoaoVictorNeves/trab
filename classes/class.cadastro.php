@@ -23,32 +23,40 @@ class Cadastros {
 		return $result;
 	}
 
-	function editCadastro($id, $nome, $dataNasc, $salario) 
+	function editCadastro($id, $nome, $data_nascimento, $salario) 
 	{
+
+		$salario = str_replace(array('.',','), array('',''), $salario);
+		$salario = number_format($salario,2,'.','');
+
 		$query = '
 			UPDATE cadastro
-			SET nome = "'. $nome .'", dataNasc = "'. $dataNasc .'", salario = '. $salario .'
+			SET nome = "'. $nome .'", data_nascimento = "'. $data_nascimento .'", salario = '. $salario .'
 			WHERE id = '. intval($id) .'';
 
 		return $this->_db->query($query);
 	}
 
-	function createCadastro($nome, $dataNasc, $salario) 
+	function createCadastro($nome, $data_nascimento, $salario) 
 	{
 		$errors = [];
 
 		if (empty($nome)) { 
 			array_push($errors, "Nome é obrigatório"); 
 		}
-		if (empty($dataNasc)) { 
+		if (empty($data_nascimento)) { 
 			array_push($errors, "Data de nascimento é obrigatório"); 
 		}
 		if (empty($salario)) { 
 			array_push($errors, "Salário é obrigatório"); 
 		}
 
+		$salario = str_replace(array('.',','), array('',''), $salario);
+		$salario = number_format($salario,2,'.','');
+
 		if (count($errors) == 0) {
-			$query = 'INSERT INTO cadastro (nome, dataNasc, salario) VALUES("' . $nome . '", "' . $dataNasc .'", ' . floatval($salario) .')';
+			$query = 'INSERT INTO cadastro (nome, data_nascimento, salario) VALUES("' . $nome . '", "' . $data_nascimento .'", ' . $salario .')';
+			var_dump($query);
 			return $this->_db->query($query);
 		}else{
 			return $errors;

@@ -18,10 +18,17 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 		<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
 	</head>
+
+	<script>
+		jQuery(document).ready(function($) {
+			$('.money').mask("#.##0,00", {reverse: true});
+		});
+	</script>
 	<body>
 
 		<style>
@@ -100,8 +107,8 @@
 										<tr>
 											<td><?php echo $cadastro['id']; ?></td>
 											<td><?php echo $cadastro['nome']; ?></td>
-											<td><?php echo $cadastro['dataNasc']; ?></td>
-											<td><?php echo $cadastro['salario']; ?></td>
+											<td><?php echo $cadastro['data_nascimento']; ?></td>
+											<td><span class="money"><?php echo $cadastro['salario']; ?></span></td>
 											<td  style="text-align: center;">
 												<form action="index.php?edit_user" method="post" class="d-inline">
 													<input type="hidden" name="id" value="<?php echo $cadastro['id']; ?>">
@@ -136,11 +143,11 @@
 												</div>
 												<div class="form-group">
 													<label for="">Data de nascimento</label>
-													<input type="date" name="dataNasc" class="form-control" value="<?php echo $user['dataNasc']; ?>">
+													<input type="date" name="data_nascimento" class="form-control" value="<?php echo $user['data_nascimento']; ?>">
 												</div>
 												<div class="form-group">
 													<label for="">Salário</label>
-													<input type="number" name="salario" class="form-control"  value="<?php echo $user['salario']; ?>">
+													<input type="text" name="salario" class="form-control money"  value="<?php echo $user['salario']; ?>">
 												</div>
 												<div class="form-group">
 													<button type="submit" class="btn btn-success btn-block"> Editar </button>
@@ -158,10 +165,10 @@
 
 									$id = $_POST['id'];
 									$nome = $_POST['nome'];
-									$dataNasc = $_POST['dataNasc'];
+									$data_nascimento = $_POST['data_nascimento'];
 									$salario = $_POST['salario'];
 
-									$objUser = $cadastro->editCadastro($id, $nome, $dataNasc, $salario);
+									$objUser = $cadastro->editCadastro($id, $nome, $data_nascimento, $salario);
 
 									if ($objUser == true) {
 										echo '<h1 class="text-uppercase text-center">Usuário atualizado com sucesso</h1>';
@@ -183,11 +190,11 @@
 										</div>
 										<div class="form-group">
 											<label for="">Data de nascimento</label>
-											<input type="date" name="dataNasc" class="form-control">
+											<input type="date" name="data_nascimento" class="form-control">
 										</div>
 										<div class="form-group">
 											<label for="">Salário</label>
-											<input type="number" name="salario" class="form-control" >
+											<input type="text" name="salario" class="form-control money">
 										</div>
 										<div class="form-group">
 											<button type="submit" class="btn btn-success btn-block"> Criar </button>
@@ -201,10 +208,10 @@
 								if (isset($_POST['hash']) && $_POST['hash'] == 'ef4643a7d6c4af78c08eb2bed79a0eac'):
 
 										$nome = $_POST['nome'];
-										$dataNasc = $_POST['dataNasc'];
+										$data_nascimento = $_POST['data_nascimento'];
 										$salario = $_POST['salario'];
 
-										$objUser = $cadastro->createCadastro($nome, $dataNasc, $salario);
+										$objUser = $cadastro->createCadastro($nome, $data_nascimento, $salario);
 
 										if (is_bool($objUser) == true && $objUser == true):
 											echo '<h1 class="text-uppercase text-center">Usuário criado com sucesso</h1>';
